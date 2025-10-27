@@ -60,8 +60,7 @@ def plot_ellipse(t, data, tick):
         ax.axhline(c='grey', lw=1)
 
         ellipse, center_x, center_y, width, height = confidence_ellipse(
-            x, y, ax, n_std=1.645, edgecolor=edgecolor, label=labels[i//2], zorder=0
-        )
+            x, y, ax, n_std=1.645, edgecolor=edgecolor, label=labels[i//2], zorder=0)
 
         perimeter = calculate_perimeter(width, height)
 
@@ -86,7 +85,7 @@ def organize_and_plot_ellipse(base_dir, categories, max_subjects=10):
 
     temp = []
     for cat in categories:
-        temp.append(glob.glob(os.path.join(base_dir, cat, '*.xlsx')))
+        temp.append(glob.glob(os.path.join(base_dir, cat, '*.csv')))
 
     for i in temp:
         for j in i:
@@ -100,7 +99,7 @@ def organize_and_plot_ellipse(base_dir, categories, max_subjects=10):
 
         for i, c in enumerate(sub):
             vars = ['open_' + categories[i].split('_')[-1], 'close_' + categories[i].split('_')[-1]]
-            df = pd.read_excel(c)
+            df = pd.read_csv(c)
             if len(df.index) > 3000:
                 df.drop(df.index[0], axis=0, inplace=True)
 
@@ -117,3 +116,4 @@ def organize_and_plot_ellipse(base_dir, categories, max_subjects=10):
                 minmax[j][1] = int(np.ceil(minmax[j][1] / 5) * 5)
 
         plot_ellipse(os.path.basename(sub[0])[:7], tmp, minmax)
+
